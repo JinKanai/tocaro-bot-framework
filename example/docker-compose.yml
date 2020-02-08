@@ -18,6 +18,7 @@ services:
       - "8081"
     environment:
       TZ: Asia/Tokyo
+      TOCARO_TOKEN: ${TOCARO_TOKEN}
     links:
       - "database-svc" 
 
