@@ -4,5 +4,5 @@
 
 python manage.py collectstatic
 rm -rf /tmp/webserver/collected_static
-mv ./collected_static /tmp/webserver
+mv ./collected_static /tmp/
 

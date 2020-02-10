@@ -6,7 +6,7 @@ buildApiEngine:
 	docker-compose build apiengine-svc
 
 collectStatic:
-	docker run --rm -t -v $PWD:/tmp --entrypoint=./collectstatic.sh example_apiengine-svc:latest
+	docker run --rm -t -v $(PWD)/webserver:/tmp --entrypoint=./collectstatic.sh example_apiengine-svc:latest
 
 buildWebServer: buildApiEngine
 	docker-compose build webserver-svc
