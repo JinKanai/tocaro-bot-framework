@@ -1,0 +1,42 @@
+version: '2'
+
+services:
+  webserver-svc:
+    build:
+     context: ./webserver
+    ports:
+      - "8080:8080"
+    environment:
+      TZ: Asia/Tokyo
+    links:
+      - "apiengine-svc"
+
+  apiengine-svc:
+    build:
+      context: ./apiengine
+    expose:
+      - "8081"
+    environment:
+      TZ: Asia/Tokyo
+      TOCARO_TOKEN: ${TOCARO_TOKEN}
+    links:
+      - "database-svc" 
+
+  database-svc:
+    image:
+      postgres:12.1
+    expose:
+      - "5432"
+    environment:
+      TZ: Asia/Tokyo
+      POSTGRES_USER: harukabot
+      POSTGRES_PASSWORD: harukabot
+      PGPASSWORD: harukabot
+      POSTGRES_DB: harukabot
+      #DATABASE_HOST=localhost
+    volumes:
+      - dbdata:/var/lib/postgresql/data/
+
+volumes:
+  dbdata:
+    driver: local

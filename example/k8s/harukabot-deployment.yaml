@@ -1,0 +1,63 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: webserver
+spec:
+  selector:
+    matchLabels:
+      app: webserver
+  replicas: 3
+  template:
+    metadata:
+      labels:
+        app: webserver
+    spec:
+      containers:
+        - name: webserver
+          image: localhost:5000/harukabot/webserver
+          ports:
+            - containerPort: 8080
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: apiengine
+spec:
+  selector:
+    matchLabels:
+      app: apiengine
+  replicas: 1
+  template:
+    metadata:
+      labels:
+        app: apiengine
+    spec:
+      containers:
+        - name: apiengine
+          image: localhost:5000/harukabot/apiengine
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: webserver-svc
+spec:
+  type: LoadBalncer
+  ports:
+    - port: 8080
+  selector:
+    app: webserver
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: apiengine-svc
+spec:
+  type: ClusterIP
+  ports:
+    - port: 8081
+  selector:
+    app: apiengine
+
